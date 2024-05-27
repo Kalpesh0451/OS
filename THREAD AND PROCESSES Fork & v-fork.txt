@@ -1,0 +1,136 @@
+
+ASSIGNMENT TITLE: CONCURRENT PROGRAMMING USE OF THREAD AND PROCESSES, SYSTEM CALL(FORK AND V-FORK)
+
+1.c
+
+PROGRAM
+
+/*
+#include<stdio.h>
+#include<unistd.h>
+#include<sys/wait.h>
+int main()
+{
+pid_t pid;
+pid=fork();
+if(pid==-1)
+{
+	perror("INVALID CHOICE");
+	return(1);
+}
+if(pid>0)
+{
+	printf("\nTHIS IS PARENT PROCESS");
+	printf("\nPID OF PARENT IS=%d",getpid());
+	printf("\n\n");
+	wait(NULL);
+}
+else
+{
+	printf("\nTHIS IS CHILD PROCESS");
+	printf("\nPID OF CHILD IS=%d",getpid());
+	printf("\nPID OF PARENT IS=%d",getppid());\
+	printf("\n\n");
+}
+return 0;	
+}
+*/
+
+OUTPUT
+
+/*THIS IS PARENT PROCESS
+
+PID OF PARENT IS=55
+THIS IS CHILD PROCESS
+
+PID OF CHILD IS=56
+PID OF PARENT IS=55
+*/
+
+2.c
+
+PROGRAM
+
+/*
+#include<stdio.h>
+#include<unistd.h>
+#include<sys/wait.h>
+int main()
+{
+pid_t pid;
+pid=vfork();
+if(pid==-1)
+{
+	perror("INVALID CHOICE");
+	return(1);
+}
+if(pid>0)
+{
+	printf("\nTHIS IS PARENT PROCESS");
+	printf("\nPID OF PARENT IS=%d",getpid());
+	printf("\n\n");
+	wait(NULL);
+}
+else
+{
+	printf("\nTHIS IS CHILD PROCESS");
+	printf("\nPID OF CHILD IS=%d",getpid());
+	printf("\nPID OF PARENT IS=%d",getppid());\
+	printf("\n\n");
+	_exit(0);//TERMINATE CHILD PROCESS
+}
+return 0;	
+}
+*/
+
+OUTPUT
+
+/*
+THIS IS CHILD PROCESS
+PID OF CHILD IS=58
+PID OF PARENT IS=57
+
+
+THIS IS PARENT PROCESS
+PID OF PARENT IS=57
+*/
+
+
+3.c
+
+PROGRAM
+
+/*
+#include<stdio.h>
+#include<pthread.h>
+void *thread_function(void *arg)
+{
+printf("HELLO FROM THE THREAD!\n");
+pthread_exit(NULL);
+}
+int main()
+{
+pthread_t thread_id;
+int rc;
+printf("CREATING A THREAD...\n");
+//CREATE A THREAD
+rc=pthread_create(&thread_id,NULL,thread_function,NULL);
+if(rc)
+{
+printf("ERROR:RETURN CODE FROM PTHREAD_CREATE() IS %d\n",rc);
+return 1;
+}
+//WAIT FOR THE THREAD TO FINISH
+pthread_join(thread_id,NULL);
+printf("THREAD HAS COMPLETED ITS EXECUTION\n");
+return 0;
+}
+*/
+
+OUTPUT
+
+/*
+CREATING A THREAD...
+HELLO FROM THE THREAD!
+THREAD HAS COMPLETED ITS EXECUTION
+*/

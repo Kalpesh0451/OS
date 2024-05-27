@@ -1,0 +1,286 @@
+ASSIGNMENT TITLE: SHELL SCRIP PROGRAMMING USING THE COMMANDS GREP, AWK AND SED
+NAME: Vivek Mandlik
+ROLL NO.: 30
+BATCH: S2
+ACADEMIC YEAR: 2023-24
+PRACTICAL NO. 3
+
+PROGRAM
+
+book.sh
+
+/*
+#!/bin/sh
+
+clear
+
+exit=0
+
+while [ $exit -ne 1 ]
+do
+	echo "WHAT OPERATION DO YOU WANT?"
+	echo "1.CREATE"
+	echo "2.ADD"
+	echo "3.LIST"
+	echo "4.DEL"
+	echo "5.UPDATE"
+	echo "6.EXIT"
+	echo "ENTER TEXT FOR OPERATIONS!"
+	echo
+	read answer
+
+	case $answer in
+1)
+	./create.sh
+	;;
+2)
+	./add.sh
+	;;
+3)
+	./list.sh
+	;;
+4)
+	./del.sh
+	;;
+5)
+	./update.sh
+	;;
+6)
+	echo "EXISTING...! : ) "
+	exit=1
+	;;
+*)
+	echo "INVALID COMMAND!"
+	;;
+	esac
+done
+
+
+
+
+*/
+
+add.sh
+
+/*
+#!/bin/sh
+
+if [ -e book.txt ]; then
+	BOOK="book.txt"
+
+	echo -n "NAME OF PERSON="
+	read name
+
+	echo -n "PHONE NUMBER="
+	read phone
+
+	echo "SHOULD I ENTER THE VALUES="
+	echo "$name ; $phone"
+	echo -n "YES/NO"
+	read answer
+
+	if [ "$answer" = "YES" ]; then
+		echo "$name ; $phone" >> "$BOOK"
+		echo "CONTACT ADDED SUCCESSFULLY"
+	else
+		echo
+		echo "$name ; $phone NOT WRITTEN TO $BOOK"
+	fi
+else
+echo
+echo "ADDRESS BOOK IS NOT CREATED. FIRST CREATE IT!"
+echo
+fi
+exit 0
+*/
+
+create.sh
+
+/*
+#!/bin/sh
+
+echo
+if [ -e book.txt ]
+then
+	echo "ADRESS BOOK ALREADY CREATED!"
+else
+	touch book.txt
+	echo "ADDRESS BOOK CREATED!"
+fi
+*/
+
+del.sh
+
+/*
+#!/bin/sh
+
+if [ -e book.txt ]
+then
+
+	BOOK="book.txt"
+
+	./list.sh
+
+	echo -n "WHICH LINE SHOULD I DELETE="
+	read number
+
+	mv $BOOK temp.txt
+
+	nl --number-separator=":" temp.txt | grep -v $number: | awk -F: '{print $2}' | tee $BOOK
+else
+	echo -n "ADDRESS BOOK IS NOT CREATED! FIRST CREATE IT!"
+fi
+*/
+
+list.sh
+
+/*
+#!/bin/sh
+
+if [ -e book.txt ]
+then
+	BOOK="book.txt"
+	echo "LINE NUMBER=	NAME=	;	PHONE NUMBER"
+	nl -s "	:	" $BOOK | cat
+else
+echo
+echo "ADDRESS BOOK IS NOT CREATED. FIRST CREATE IT!"
+echo
+fi
+*/
+
+update.sh
+
+/*
+#!/bin/sh
+
+if [ -e book.txt ]; then
+	BOOK="book.txt"
+
+	number=0
+	echo -n "WHAT PERSON OR NUMBER ARE YOU SEARCHING="
+	read fn
+
+	#DISPLAY THE RECORD
+	echo "NAME	;	PHONE NUMBER"
+	grep -i "$fn" "$BOOK"
+
+	#CHECK IS THE RECORDS EXISTS
+	if grep -q -i "$fn" "$BOOK"; then
+	echo
+	echo "RECORD FOUND. PLEASE ENTER THE DETAILS FOR UPDATE!"
+
+	#PROMPT FOR NEW DETAILS
+	echo -n "NEW NAME OF PERSON="
+	read newName
+
+	echo -n "NEW PHONE NUMBER="
+	read newPhone
+
+	#USE SED TO UPDATE THE RECORD
+	sed -i  "s/^.*$fn.*$/$newName	;	$newPhone/" "$BOOK"
+	echo "RECORD UPDATED SUCCESSFULLY!"
+
+	else
+		echo
+		echo "NO RECORD FOUND!"
+	fi
+else
+	echo
+	echo "ADDRESS BOOK IS NOT CREATED. FIRST CREATE IT!"
+	echo
+fi
+*/
+
+OUTPUT
+
+/*
+WHAT OPERATION DO YOU WANT?
+1.CREATE
+2.ADD
+3.LIST
+4.DEL
+5.UPDATE
+6.EXIT
+ENTER TEXT FOR OPERATIONS!
+
+1
+
+ADRESS BOOK ALREADY CREATED!
+WHAT OPERATION DO YOU WANT?
+1.CREATE
+2.ADD
+3.LIST
+4.DEL
+5.UPDATE
+6.EXIT
+ENTER TEXT FOR OPERATIONS!
+
+2
+NAME OF PERSON=ABCD
+PHONE NUMBER=123456789
+SHOULD I ENTER THE VALUES=
+ABCD ; 123456789
+YES/NOYES
+CONTACT ADDED SUCCESSFULLY
+WHAT OPERATION DO YOU WANT?
+1.CREATE
+2.ADD
+3.LIST
+4.DEL
+5.UPDATE
+6.EXIT
+ENTER TEXT FOR OPERATIONS!
+
+3
+LINE NUMBER=    NAME=   ;       PHONE NUMBER
+     1  :       MANAS ; 1234567890
+     2  :       ABC ; 123456789
+     3  :       ABCD ; 123456789
+WHAT OPERATION DO YOU WANT?
+1.CREATE
+2.ADD
+3.LIST
+4.DEL
+5.UPDATE
+6.EXIT
+ENTER TEXT FOR OPERATIONS!
+
+4
+LINE NUMBER=    NAME=   ;       PHONE NUMBER
+     1  :       MANAS ; 1234567890
+     2  :       ABC ; 123456789
+     3  :       ABCD ; 123456789
+WHICH LINE SHOULD I DELETE=3
+MANAS ; 1234567890
+ABC ; 123456789
+WHAT OPERATION DO YOU WANT?
+1.CREATE
+2.ADD
+3.LIST
+4.DEL
+5.UPDATE
+6.EXIT
+ENTER TEXT FOR OPERATIONS!
+
+5
+WHAT PERSON OR NUMBER ARE YOU SEARCHING=ABC
+NAME    ;       PHONE NUMBER
+ABC ; 123456789
+
+RECORD FOUND. PLEASE ENTER THE DETAILS FOR UPDATE!
+NEW NAME OF PERSON=ABCXYZ
+NEW PHONE NUMBER=124421
+RECORD UPDATED SUCCESSFULLY!
+WHAT OPERATION DO YOU WANT?
+1.CREATE
+2.ADD
+3.LIST
+4.DEL
+5.UPDATE
+6.EXIT
+ENTER TEXT FOR OPERATIONS!
+
+6
+EXISTING...! : )
+*/

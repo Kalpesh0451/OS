@@ -1,0 +1,102 @@
+
+
+/*
+Practical No.02. SHELL PROGRAMMING FOR FILE HANDLING
+Name: Anuj Jadhav
+Roll Number: 45
+PRN: 2252441257046
+Batch: S3
+Academic Year: 2023-2024
+*/
+
+display_menu()
+{
+echo "Menu"
+echo "1.Count char,Words,Lines"
+echo "2.Read File Contents"
+echo "3.Display In Reverse"
+echo "4.Frequency of Specific Words"
+echo "5.Exit"
+}
+read -p "What's Your File Name?" filename
+if [ ! -f "$filename" ]; then
+echo "File $filename Doesnot Exists"
+exit 1
+fi
+#Main Loop
+while true; do
+display_menu
+read -p "What's Your Choice=" choice
+case $choice in
+1)
+char_count=$(wc -m < "$filename")
+word_count=$(wc -w < "$filename")
+line_count=$(wc -l < "$filename")
+echo "Char Count is: $char_count"
+echo "Word Count is: $word_count"
+echo "Line Count is: $line_count"
+;;
+2)
+cat "$filename"
+;;
+3)
+rev "$filename"
+;;
+4)
+read -p "What's The Word" word
+grep -o "\<word\>" "$filename" | wc -w
+;;
+5)
+echo "Exiting"
+exit 0
+;;
+*)
+echo "Invalid Choice"
+;;
+esac
+done
+
+#What's Your File Name?text1.txt
+Menu
+1.Count char,Words,Lines
+2.Read File Contents
+3.Display In Reverse
+4.Frequency of Specific Words
+5.Exit
+What's Your Choice=1
+Char Count is: 308
+Word Count is: 49
+Line Count is: 1
+Menu
+1.Count char,Words,Lines
+2.Read File Contents
+3.Display In Reverse
+4.Frequency of Specific Words
+5.Exit
+What's Your Choice=2
+Since the release of the first version in 2004, Ubuntu has become one of the most popular Linux distributions for general purposes and is backed by large online communities like Ask Ubuntu. Numerous community-editions of Ubuntu also exist. It is also popular for cloud computing, with support for OpenStack.
+Menu
+1.Count char,Words,Lines
+2.Read File Contents
+3.Display In Reverse
+4.Frequency of Specific Words
+5.Exit
+What's Your Choice=3
+.kcatSnepO rof troppus htiw ,gnitupmoc duolc rof ralupop osla si tI .tsixe osla utnubU fo snoitide-ytinummoc suoremuN .utnubU ksA ekil seitinummoc enilno egral yb dekcab si dna sesoprup lareneg rof snoitubirtsid xuniL ralupop tsom eht fo eno emoceb sah utnubU ,4002 ni noisrev tsrif eht fo esaeler eht ecniS
+Menu
+1.Count char,Words,Lines
+2.Read File Contents
+3.Display In Reverse
+4.Frequency of Specific Words
+5.Exit
+What's Your Choice=4
+What's The WordSince
+0
+Menu
+1.Count char,Words,Lines
+2.Read File Contents
+3.Display In Reverse
+4.Frequency of Specific Words
+5.Exit
+What's Your Choice=5
+Exiting

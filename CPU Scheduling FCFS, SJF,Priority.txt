@@ -1,0 +1,270 @@
+
+#include <stdio.h>
+typedef struct
+{
+int id;
+int bt;
+int wt;
+}Process;
+
+void fcfs(Process p[], int n);
+
+int main()
+{
+int n,i;
+
+printf("ENTER NUMEBR OF PROCESSES=");
+scanf("%d",&n);
+
+Process p[n];
+
+printf("ENTER BURST TIME FOR EACH PROCESS=");
+for(i=0;i<n;i++)
+{
+	p[i].id=i+1;
+	printf("PROCESS %d=\n",p[i].id);
+	printf("BURST TIME=");
+	scanf("%d",&p[i].bt);
+}
+
+fcfs(p,n);
+
+return 0;
+}
+
+void fcfs(Process p[], int n)
+{
+int i;
+float avg_wt=0;
+printf("FIRST COME FIRST SERVE(FCFS)=\n");
+p[0].wt=0;
+
+//CALCULATE WAITING TIME FOR EACH PROCESS
+for(i=1;i<n;i++)
+{
+	p[i].wt=p[i-1].wt+p[i-1].bt;
+	avg_wt=+p[i].wt;
+}
+
+printf("PROCESS\t BURST TIME\t WAITING TIME\n");
+for(i=0;i<n;i++)
+{
+	printf("%d\t\t %d\t\t %d\n",p[i].id,p[i].bt,p[i].wt);
+}
+avg_wt=avg_wt / n;
+printf("AVERAGE WAITING TIME= %.2f\n",avg_wt);
+}
+*/
+
+OUTPUT
+
+/*
+ENTER NUMEBR OF PROCESSES=3
+ENTER BURST TIME FOR EACH PROCESS=PROCESS 1=
+BURST TIME=3
+PROCESS 2=
+BURST TIME=3
+PROCESS 3=
+BURST TIME=3
+FIRST COME FIRST SERVE(FCFS)=
+PROCESS  BURST TIME      WAITING TIME
+1                3               0
+2                3               3
+3                3               6
+AVERAGE WAITING TIME= 2.00
+*/
+
+priority.c
+
+/*
+#include <stdio.h>
+typedef struct
+{
+int id;
+int bt;
+int prior;
+int wt;
+}Process;
+
+void priority(Process p[], int n);
+
+int main()
+{
+int n,i,j;
+
+printf("ENTER NUMEBR OF PROCESSES=");
+scanf("%d",&n);
+
+Process p[n];
+
+printf("ENTER BURST TIME FOR EACH PROCESS=");
+for(i=0;i<n;i++)
+{
+	p[i].id=i+1;
+	printf("PROCESS %d=\n",p[i].id);
+	printf("BURST TIME=");
+	scanf("%d",&p[i].bt);
+	printf("PRIORITY=");
+	scanf("%d",&p[i].prior);
+}
+
+priority(p,n);
+
+return 0;
+}
+
+void priority(Process p[], int n)
+{
+int i,j;
+float avg_wt=0;
+printf("SHORTEST JOB FIRST(priority) = \n ");
+
+//SORT PROCESSS
+for(i=0;i<n-1;i++)
+{
+for(j=0;j<n-i-1;j++)
+{
+if(p[j].prior<p[j+1].prior)
+{
+Process temp=p[j];
+p[j]=p[j+1];
+p[j+1]=temp;
+}
+}
+}
+
+p[0].wt=0;
+
+//CALCULATE WAITING TIME FOR EACH PROCESS
+for(i=1;i<n;i++)
+{
+	p[i].wt=p[i-1].wt+p[i-1].bt;
+	avg_wt+=p[i].wt;
+}
+
+printf("PROCESS\t BURST TIME\t PRIORITY\t WAITING TIME\n");
+for(i=0;i<n;i++)
+{
+	printf("%d\t\t %d\t\t %d\n",p[i].id,p[i].bt,p[i].wt);
+	p[i].prior,p[i].wt;
+}
+avg_wt /= n;
+printf("AVERAGE WAITING TIME= %.2f\n",avg_wt);
+printf("%d",n);
+}
+*/
+
+OUTPUT
+
+/*
+ENTER NUMEBR OF PROCESSES=3
+ENTER BURST TIME FOR EACH PROCESS=PROCESS 1=
+BURST TIME=4
+PRIORITY=5
+PROCESS 2=
+BURST TIME=2
+PRIORITY=4
+PROCESS 3=
+BURST TIME=6
+PRIORITY=2
+SHORTEST JOB FIRST(priority) =
+ PROCESS         BURST TIME      PRIORITY        WAITING TIME
+1                4               0
+2                2               4
+3                6               6
+AVERAGE WAITING TIME= 3.33
+
+*/
+
+sjf.c
+
+/*
+#include <stdio.h>
+typedef struct
+{
+int id;
+int bt;
+int wt;
+}Process;
+
+void sjf(Process p[], int n);
+
+int main()
+{
+int n,i,j;
+
+printf("ENTER NUMEBR OF PROCESSES=");
+scanf("%d",&n);
+
+Process p[n];
+
+printf("ENTER BURST TIME FOR EACH PROCESS=");
+for(i=0;i<n;i++)
+{
+	p[i].id=i+1;
+	printf("PROCESS %d=\n",p[i].id);
+	printf("BURST TIME=");
+	scanf("%d",&p[i].bt);
+}
+
+sjf(p,n);
+
+return 0;
+}
+
+void sjf(Process p[], int n)
+{
+int i,j;
+float avg_wt=0;
+printf("SHORTEST JOB FIRST(sjf) = \n ");
+
+for(i=0;i<n-1;i++)
+{
+for(j=0;j<n-i-1;j++)
+{
+if(p[j].bt>p[j+1].bt)
+{
+Process temp=p[j];
+p[j]=p[j+1];
+p[j+1]=temp;
+}
+}
+}
+
+p[0].wt=0;
+
+//CALCULATE WAITING TIME FOR EACH PROCESS
+for(i=1;i<n;i++)
+{
+	p[i].wt=p[i-1].wt+p[i-1].bt;
+	avg_wt+=p[i].wt;
+}
+
+printf("PROCESS\t BURST TIME\t WAITING TIME\n");
+for(i=0;i<n;i++)
+{
+	printf("%d\t\t %d\t\t %d\n",p[i].id,p[i].bt,p[i].wt);
+}
+avg_wt /= n;
+printf("AVERAGE WAITING TIME= %.2f\n",avg_wt);
+printf("%d",n);
+}
+*/
+
+OUTPUT
+
+/*
+ENTER NUMEBR OF PROCESSES=3
+ENTER BURST TIME FOR EACH PROCESS=PROCESS 1=
+BURST TIME=3
+PROCESS 2=
+BURST TIME=5
+PROCESS 3=
+BURST TIME=4
+SHORTEST JOB FIRST(sjf) =
+ PROCESS         BURST TIME      WAITING TIME
+1                3               0
+3                4               3
+2                5               7
+AVERAGE WAITING TIME= 3.33
+*/
